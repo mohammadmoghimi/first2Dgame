@@ -9,7 +9,13 @@ public class Main {
         window.setResizable(false);
         window.setTitle("mypaintI.O");
 
-        window.setLocation(null);
+        GamePanel gamePanel = new GamePanel() ;
+        window.add(gamePanel) ;
+
+        window.pack();
+
+       // window.setLocation(null);
         window.setVisible(true);
+        gamePanel.startGameThread();
     }
 }
