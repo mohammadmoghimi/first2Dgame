@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 
     }
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) { // this is how we call the repaint method ; i know , its weird :) 
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g ;
