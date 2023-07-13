@@ -1,8 +1,5 @@
 package main;
 
-import entity.Player;
-import tile.TileManager;
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
@@ -13,20 +10,21 @@ public class GamePanel extends JPanel implements Runnable{
     final int originalTileSize = 16 ;
     final int scale = 3 ;
 
-    public final int tileSize = originalTileSize * scale ; //using this method our characters look better on the screen
-    public final int maxScreenCol = 16 ;
-    public final int maxScreenRow = 12 ;
-    public final int screenWidth = tileSize * maxScreenCol ;
-    public final int screenHeight = tileSize * maxScreenRow ;
+    final int tileSize = originalTileSize * scale ; //using this method our characters look better on the screen
+    final int maxScreenCol = 16 ;
+    final int maxScreenRow = 12 ;
+    final int screenWidth = tileSize * maxScreenCol ;
+    final int screenHeight = tileSize * maxScreenRow ;
 
     keyHandler keyH = new keyHandler() ;
-    TileManager tileM = new TileManager(this) ;
     Thread gameThread ;
-    Player player = new Player(this , keyH) ;
 
     int FPS = 60 ;
 
-
+    //set player's default position
+    int playerX = 100 ;
+    int playerY = 100 ;
+    int playerspeed = 4 ;
     public GamePanel() {
 
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -73,16 +71,29 @@ public class GamePanel extends JPanel implements Runnable{
 
     }
     public void update () {
-        player.update();
+        if (keyH.upPressed)
+            playerY -= playerspeed ;
+
+
+        else if (keyH.downPressed)
+            playerY += playerspeed ;
+
+        else if (keyH.leftPressed)
+            playerX -= playerspeed ;
+
+        else if(keyH.rightPressed)
+            playerX += playerspeed ;
+
+
     }
-    public void paintComponent(Graphics g) {  // this is how we call the repaint method ; i know , its weird :)
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g ;
 
-        tileM.draw(g2); // we need to make sure to write this line of code before player.draw , otherwise
-                        // we won't be able to see the character
-        player.draw(g2);
+        g2.setColor(Color.white) ;
+
+        g2.fillRect(playerX ,playerY ,tileSize , tileSize);
 
         g2.dispose();
 
