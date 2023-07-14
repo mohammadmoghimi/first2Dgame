@@ -40,7 +40,7 @@ public class Player extends Entity{
             e.printStackTrace();
         }
     }
-    public  void update(){
+    public  void playerUpdate(){
         if (keyH.upPressed){
             direction = "up" ;
             y -= speed ;}
@@ -67,7 +67,7 @@ public class Player extends Entity{
             spriteCounter = 0 ;
         }
     }
-    public void draw(Graphics2D g2){
+    public void playerDraw(Graphics2D g2){
 //
 //        g2.setColor(Color.white) ;
 //
@@ -104,4 +104,3 @@ public class Player extends Entity{
 
     }
 }
-

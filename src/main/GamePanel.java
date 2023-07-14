@@ -4,7 +4,6 @@ import entity.Player;
 import tile.TileManager;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -26,10 +25,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     int FPS = 60 ;
 
-    //set player's default position
-    int playerX = 100 ;
-    int playerY = 100 ;
-    int playerspeed = 4 ;
     public GamePanel() {
 
         this.setPreferredSize(new Dimension(screenWidth , screenHeight));
@@ -52,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         while (gameThread != null) {
 
-            update(); // updates the player's position
+            gamepanelUpdate(); // updates the map based on the position of the player
 
             repaint(); // repaints the map
 
@@ -75,19 +70,17 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
     }
-    public void update () {
-        player.update();
-
-
+    public void gamepanelUpdate() {
+        player.playerUpdate();
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g ;
 
-        tileM.draw(g2);
+        tileM.gamepanelDraw(g2);
 
-        player.draw(g2);
+        player.playerDraw(g2);
 
         g2.dispose();
 
