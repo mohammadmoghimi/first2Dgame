@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3f487b0f-1124-4a6a-8e0d-0c81b6fdff9b" name="Changes" comment="time to modify">
+    <list default="true" id="3f487b0f-1124-4a6a-8e0d-0c81b6fdff9b" name="Changes" comment="right before gpt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tile/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tile/Tile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tile/TileManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +61,7 @@
       <option name="presentableId" value="Default" />
       <updated>1689054768909</updated>
       <workItem from="1689054771549" duration="50769000" />
-      <workItem from="1689340394268" duration="7963000" />
+      <workItem from="1689340394268" duration="12267000" />
     </task>
     <task id="LOCAL-00001" summary="first piece of code">
       <created>1689056000241</created>
@@ -100,7 +98,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689265949823</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="right before gpt">
+      <created>1689362577284</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1689362577284</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -122,6 +127,7 @@
     <MESSAGE value="thread is working" />
     <MESSAGE value="box is moving now :)" />
     <MESSAGE value="time to modify" />
-    <option name="LAST_COMMIT_MESSAGE" value="time to modify" />
+    <MESSAGE value="right before gpt" />
+    <option name="LAST_COMMIT_MESSAGE" value="right before gpt" />
   </component>
 </project>
