@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3f487b0f-1124-4a6a-8e0d-0c81b6fdff9b" name="Changes" comment="right before gpt">
+    <list default="true" id="3f487b0f-1124-4a6a-8e0d-0c81b6fdff9b" name="Changes" comment="black and white tiles">
+      <change afterPath="$PROJECT_DIR$/res/maps/interior01.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/maps/world01.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/maps/worldV2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/maps/worldV3.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/GamePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tile/TileManager.java" afterDir="false" />
@@ -22,6 +27,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/entity/Player.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -48,6 +56,7 @@
       <recent name="C:\Users\SibCo\Desktop\first2Dgame\res\tiles" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\SibCo\Desktop\first2Dgame\res\maps" />
       <recent name="C:\Users\SibCo\Desktop\first2Dgame\res\tiles" />
       <recent name="C:\Users\SibCo\Desktop\first2Dgame\res\player" />
     </key>
@@ -61,7 +70,8 @@
       <option name="presentableId" value="Default" />
       <updated>1689054768909</updated>
       <workItem from="1689054771549" duration="50769000" />
-      <workItem from="1689340394268" duration="12267000" />
+      <workItem from="1689340394268" duration="22324000" />
+      <workItem from="1689619171106" duration="21632000" />
     </task>
     <task id="LOCAL-00001" summary="first piece of code">
       <created>1689056000241</created>
@@ -105,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689362577284</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="black and white tiles">
+      <created>1689492837892</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1689492837892</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -128,6 +145,7 @@
     <MESSAGE value="box is moving now :)" />
     <MESSAGE value="time to modify" />
     <MESSAGE value="right before gpt" />
-    <option name="LAST_COMMIT_MESSAGE" value="right before gpt" />
+    <MESSAGE value="black and white tiles" />
+    <option name="LAST_COMMIT_MESSAGE" value="black and white tiles" />
   </component>
 </project>
