@@ -20,98 +20,62 @@ public class TileManager {
         tile = new Tile[10] ;
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow] ;
         getTileImage() ;
-        loadMap("/maps/world01.txt");
     }
-    public void getTileImage()  {
-        try {
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
+    public void getTileImage() {
+        tile[0] = new Tile();
+        tile[0].image = createColoredTile(Color.gray);
 
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
-            tile[1].collision = true ;
-
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
-            tile[2] .collision =true ;
-
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
-
-            tile[4] = new Tile();
-            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
-            tile[4].collision = true ;
-
-            tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/sand.png"));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        tile[1] = new Tile();
+        tile[1].image = createColoredTile(Color.WHITE);
     }
 
-    public void loadMap (String filepath) {
-
-        try {
-            InputStream is = getClass().getResourceAsStream(filepath) ;
-            BufferedReader br = new BufferedReader (new InputStreamReader(is)) ;
-
-            int col = 0 ;
-            int row = 0 ;
-
-            while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
-
-                String line = br.readLine();
-
-                while (col < gp.maxWorldCol) {
-
-                    String[] numbers = line.split(" ") ;
-
-                    int num = Integer.parseInt(numbers[col]) ;
-
-                    mapTileNum[col][row] = num ;
-                    col++ ;
-
-                }
-                if (col == gp.maxWorldCol){
-                    col = 0 ;
-                    row ++ ;
-                }
-            }
-            br.close();
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    private BufferedImage createColoredTile(Color color) {
+        BufferedImage image = new BufferedImage(gp.tileSize, gp.tileSize, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        g2d.setColor(color);
+        g2d.fillRect(0, 0, gp.tileSize, gp.tileSize);
+        g2d.dispose();
+        return image;
     }
+
+
 
 
     public void gamepanelDraw(Graphics2D g2) {
-        int worldCol = 0 ;
-        int worldRow = 0 ;
+        int worldCol = 0;
+        int worldRow = 0;
 
-        while (worldCol <gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+            int tileNum = mapTileNum[worldCol][worldRow];
+            boolean isEvenTile = (worldCol + worldRow) % 2 == 0;
 
-            int tileNum = mapTileNum[worldCol][worldRow] ;
+            int worldX = worldCol * gp.tileSize;
+            int worldY = worldRow * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-            int worldX = worldCol * gp.tileSize ;
-            int worldY = worldRow * gp.tileSize ;
-            int screenX = worldX - gp.player.worldX + gp.player.screenX ;
-            int screenY = worldY - gp.player.worldY + gp.player.screenY ;
+            if (screenX + gp.tileSize > 0 && screenX < gp.screenWidth &&
+                    screenY + gp.tileSize > 0 && screenY < gp.screenHeight) {
 
-            if (    worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-                    worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-                    worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-                    worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
-            {
-                g2.drawImage(tile[tileNum].image , screenX ,screenY , gp.tileSize, gp.tileSize , null);
+                BufferedImage tileImage;
+                if (isEvenTile) {
+                    tileImage = tile[0].image; // Use the white tile
+                } else {
+                    tileImage = tile[1].image; // Use the black tile
+                }
+                if (    worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+                        worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                        worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+                        worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
+                {
+                    g2.drawImage(tileImage , screenX ,screenY , gp.tileSize, gp.tileSize , null);
+                }
             }
-            worldCol ++ ;
+            worldCol++;
 
-
-            if (worldCol == gp.maxWorldCol){
-                worldCol = 0 ;
-                worldRow ++ ;
+            if (worldCol == gp.maxWorldCol) {
+                worldCol = 0;
+                worldRow++;
             }
         }
     }
