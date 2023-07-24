@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3f487b0f-1124-4a6a-8e0d-0c81b6fdff9b" name="Changes" comment="for the second branch">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/GamePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tile/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tile/Tile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tile/TileManager.java" afterDir="false" />
@@ -67,7 +68,7 @@
       <updated>1689054768909</updated>
       <workItem from="1689054771549" duration="50769000" />
       <workItem from="1689340394268" duration="22324000" />
-      <workItem from="1689619171106" duration="37634000" />
+      <workItem from="1689619171106" duration="61579000" />
     </task>
     <task id="LOCAL-00001" summary="first piece of code">
       <created>1689056000241</created>
@@ -132,7 +133,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689946775672</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="for the second branch">
+      <created>1689954922080</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1689954922080</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends Entity{
@@ -14,9 +15,19 @@ public class Player extends Entity{
     keyHandler keyH ;
     public final int screenX ;
     public final int screenY ;
+    private Color playerColor;
+    private Color trailColor; // Add a new field to store the trail color
+    public ArrayList<Point> previousPositions;
 
 
-    public Player(GamePanel gp , keyHandler keyH){
+    public Color getTrailColor() {
+        return trailColor;
+    }
+
+    private boolean moving; // Boolean to track whether the player is moving
+
+
+    public Player(GamePanel gp , keyHandler keyH , Color playerColor ){
         this.gp = gp ;
         this.keyH = keyH ;
 
@@ -24,14 +35,54 @@ public class Player extends Entity{
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         solidArea = new Rectangle(8 , 16 , 32 , 32) ;
+        this.playerColor = playerColor; // Set the player's color
         setDefaultValues() ;
         getPlayerImage();
+        this.trailColor = playerColor; // Set the trail color to the provided color
+        this.previousPositions = new ArrayList<>();
+        this.moving = false ;
+    }
+    public void startMoving() {
+        moving = true;
     }
 
+    // Method to stop the player's movement
+    public void stopMoving() {
+        moving = false;
+    }
+
+    // Method to check if the player is currently moving
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public Color getPlayerColor() {
+        return playerColor;
+    }
+    private void addCurrentPositionToTrail() {
+        Point currentPosition = new Point(worldX, worldY);
+        previousPositions.add(currentPosition);
+    }
+    private void updateTrail() {
+        if (isMoving()) {
+            // If the player is moving, add their current position to the trail
+            addCurrentPositionToTrail();
+        } else if (!isMoving() && !previousPositions.isEmpty()) {
+            // If the player is not moving and the trail is not empty, clear the trail
+            previousPositions.clear();
+        }
+    }
+
+    public boolean isTileInTrail(int worldCol, int worldRow) {
+        Point tilePosition = new Point(worldCol, worldRow);
+        return previousPositions.contains(tilePosition);
+    }
+
+
     public void setDefaultValues(){
-        worldX = gp.tileSize * 23 ;
-        worldY = gp.tileSize *21 ;
-        speed = 4 ;
+        worldX = gp.worldWidth / 2 ;
+        worldY = gp.worldHeight / 2 ;
+        speed = 3 ;
         direction = "down" ;
     }
     public void getPlayerImage(){
@@ -49,10 +100,11 @@ public class Player extends Entity{
             e.printStackTrace();
         }
     }
+
     public  void playerUpdate(){
         if (keyH.upPressed){
             direction = "up" ;
-             }
+        }
 
         else if (keyH.downPressed){
             direction = "down" ;
@@ -60,11 +112,11 @@ public class Player extends Entity{
         }
         else if (keyH.leftPressed){
             direction = "left" ;
-            }
+        }
 
         else if(keyH.rightPressed){
             direction = "right" ;
-            }
+        }
 
         collisionOn = false ;
         gp.cChecker.checkTile(this);
@@ -87,12 +139,10 @@ public class Player extends Entity{
             }
             spriteCounter = 0 ;
         }
+        updateTrail();
+
     }
     public void playerDraw(Graphics2D g2){
-
-//        g2.setColor(Color.white) ;
-//
-//        g2.fillRect(x ,y ,gp.tileSize , gp.tileSize);
 
         BufferedImage image = null ;
         switch (direction) {

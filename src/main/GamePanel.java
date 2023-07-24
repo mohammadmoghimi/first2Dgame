@@ -26,7 +26,9 @@ public class GamePanel extends JPanel implements Runnable{
     keyHandler keyH = new keyHandler() ;
     Thread gameThread ;
     public CollisionChecker cChecker = new CollisionChecker(this) ;
-    public Player player = new Player(this  ,keyH) ;
+    private Color playerColor = Color.BLUE;
+
+    public Player player  ;
     public TileManager tileM= new TileManager(this) ;
 
     int FPS = 60 ;
@@ -38,6 +40,8 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        player = new Player(this, keyH, playerColor);
+
     }
 
     public void startGameThread() {
@@ -77,6 +81,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     }
     public void gamepanelUpdate() {
+        player.previousPositions.add(new Point(player.worldX, player.worldY));
+
         player.playerUpdate();
     }
     public void paintComponent(Graphics g) {

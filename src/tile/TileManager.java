@@ -1,5 +1,6 @@
 package tile;
 
+import entity.Player;
 import main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -14,6 +15,7 @@ public class TileManager {
     GamePanel gp ;
     public Tile[] tile;
     public int[][] mapTileNum;
+    Player player ;
     public TileManager(GamePanel gp) {
         this.gp = gp ;
 
@@ -24,20 +26,36 @@ public class TileManager {
     public void getTileImage() {
         tile[0] = new Tile();
         tile[0].image = createColoredTile(Color.gray);
+        tile[0].position.setLocation(0, 0); // Set the position of the tile
+
 
         tile[1] = new Tile();
         tile[1].image = createColoredTile(Color.WHITE);
+        tile[1].position.setLocation(0, 0); // Set the position of the tile
+
     }
 
     private BufferedImage createColoredTile(Color color) {
         BufferedImage image = new BufferedImage(gp.tileSize, gp.tileSize, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
         g2d.setColor(color);
-        g2d.fillRect(0, 0, gp.tileSize, gp.tileSize);
+        g2d.fillRect(2, 2, gp.tileSize, gp.tileSize);
         g2d.dispose();
         return image;
     }
 
+    private boolean isPartOfHomeBase(int worldCol, int worldRow) {
+        // Calculate the center coordinates of the screen
+        int centerX = gp.worldWidth / 2;
+        int centerY = gp.worldHeight / 2;
+
+        // Calculate the center coordinates of the home base (2 * 2 square)
+        int homeBaseCenterX = centerX / gp.tileSize - 1;
+        int homeBaseCenterY = centerY / gp.tileSize - 1;
+
+        // Check if the current tile is within the home base (2 * 2 square)
+        return Math.abs(worldCol - homeBaseCenterX) <= 1 && Math.abs(worldRow - homeBaseCenterY) <= 1;
+    }
 
 
 
@@ -58,17 +76,28 @@ public class TileManager {
                     screenY + gp.tileSize > 0 && screenY < gp.screenHeight) {
 
                 BufferedImage tileImage;
-                if (isEvenTile) {
-                    tileImage = tile[0].image; // Use the white tile
+
+                // Check if the current tile is part of the player's home base (2 * 2 square)
+                boolean isPartOfHomeBase = isPartOfHomeBase(worldCol, worldRow);
+
+                if (isPartOfHomeBase) {
+                    tileImage = createColoredTile(gp.player.getPlayerColor());
                 } else {
-                    tileImage = tile[1].image; // Use the black tile
+                    if (isEvenTile) {
+                        tileImage = tile[0].image; // Use the white tile
+                    } else {
+                        tileImage = tile[1].image; // Use the black tile
+                    }
+
                 }
+
+
                 if (    worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
                         worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
                         worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                         worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
                 {
-                    g2.drawImage(tileImage , screenX ,screenY , gp.tileSize, gp.tileSize , null);
+                    g2.drawImage(tileImage, screenX, screenY, gp.tileSize, gp.tileSize, null);
                 }
             }
             worldCol++;
@@ -80,4 +109,3 @@ public class TileManager {
         }
     }
 }
-
