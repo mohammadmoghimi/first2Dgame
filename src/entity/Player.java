@@ -38,7 +38,7 @@ public class Player extends Entity{
         this.playerColor = playerColor; // Set the player's color
         setDefaultValues() ;
         getPlayerImage();
-        this.trailColor = playerColor; // Set the trail color to the provided color
+        this.trailColor = Color.CYAN ; // Set the trail color to the provided color
         this.previousPositions = new ArrayList<>();
         this.moving = false ;
     }
@@ -63,15 +63,19 @@ public class Player extends Entity{
         Point currentPosition = new Point(worldX, worldY);
         previousPositions.add(currentPosition);
     }
-    private void updateTrail() {
+
+
+    public void updateTrail() {
         if (isMoving()) {
             // If the player is moving, add their current position to the trail
             addCurrentPositionToTrail();
-        } else if (!isMoving() && !previousPositions.isEmpty()) {
-            // If the player is not moving and the trail is not empty, clear the trail
-            previousPositions.clear();
+        } else {
+            // If the player is not moving, remove the current position from the trail
+            Point currentPosition = new Point(worldX, worldY);
+            previousPositions.remove(currentPosition);
         }
     }
+
 
     public boolean isTileInTrail(int worldCol, int worldRow) {
         Point tilePosition = new Point(worldCol, worldRow);
@@ -108,18 +112,22 @@ public class Player extends Entity{
 
         else if (keyH.downPressed){
             direction = "down" ;
-
         }
         else if (keyH.leftPressed){
             direction = "left" ;
+
         }
 
         else if(keyH.rightPressed){
             direction = "right" ;
-        }
 
-        collisionOn = false ;
+        }
+        int prevWorldX = worldX;
+        int prevWorldY = worldY;
+
+        collisionOn = false;
         gp.cChecker.checkTile(this);
+
 
         if (!collisionOn){
             switch (direction) {
@@ -139,8 +147,9 @@ public class Player extends Entity{
             }
             spriteCounter = 0 ;
         }
-        updateTrail();
-
+        if (prevWorldX != worldX || prevWorldY != worldY) {
+            addCurrentPositionToTrail();
+        }
     }
     public void playerDraw(Graphics2D g2){
 

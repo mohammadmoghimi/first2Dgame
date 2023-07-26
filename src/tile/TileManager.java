@@ -39,7 +39,7 @@ public class TileManager {
         BufferedImage image = new BufferedImage(gp.tileSize, gp.tileSize, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
         g2d.setColor(color);
-        g2d.fillRect(2, 2, gp.tileSize, gp.tileSize);
+        g2d.fillRect(1, 1, gp.tileSize, gp.tileSize);
         g2d.dispose();
         return image;
     }
@@ -83,20 +83,24 @@ public class TileManager {
                 if (isPartOfHomeBase) {
                     tileImage = createColoredTile(gp.player.getPlayerColor());
                 } else {
-                    if (isEvenTile) {
-                        tileImage = tile[0].image; // Use the white tile
+                    // Check if the current tile is in the player's trail
+                    boolean isInTrail = gp.player.isTileInTrail(worldCol, worldRow);
+                    if (isInTrail) {
+                        // Draw the tile using the player's trail color
+                        tileImage = createColoredTile(gp.player.getTrailColor());
                     } else {
-                        tileImage = tile[1].image; // Use the black tile
+                        if (isEvenTile) {
+                            tileImage = tile[0].image; // Use the white tile
+                        } else {
+                            tileImage = tile[1].image; // Use the black tile
+                        }
                     }
-
                 }
 
-
-                if (    worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+                if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
                         worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
                         worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-                        worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
-                {
+                        worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
                     g2.drawImage(tileImage, screenX, screenY, gp.tileSize, gp.tileSize, null);
                 }
             }
@@ -107,5 +111,17 @@ public class TileManager {
                 worldRow++;
             }
         }
+
+        // Draw the player's trail after drawing the tiles
+        g2.setColor(gp.player.getTrailColor());
+        for (int i = 0; i < gp.player.previousPositions.size(); i++) {
+            Point prevPos = gp.player.previousPositions.get(i);
+            int screenX = prevPos.x - gp.player.worldX + gp.player.screenX;
+            int screenY = prevPos.y - gp.player.worldY + gp.player.screenY;
+            g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+        }
+
+        // Call player.updateTrail() to clear the trail when stopped
+        gp.player.updateTrail();
     }
 }

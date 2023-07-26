@@ -61,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             repaint(); // repaints the map
 
+
             try {
                 double remainingTime = nextDrawTime -System.nanoTime() ;
                 remainingTime = remainingTime/1000000 ; // because sleep method only accepts milliseconds
