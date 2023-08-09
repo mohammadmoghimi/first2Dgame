@@ -1,7 +1,8 @@
 package entity;
 
 import main.GamePanel;
-import main.keyHandler;
+import main.Weapon;
+import main.keyMouseHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,12 +12,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends Entity{
-    GamePanel gp ;
-    keyHandler keyH ;
+    public GamePanel gp ;
+    keyMouseHandler keyH ;
     public final int screenX ;
     public final int screenY ;
     private Color playerColor;
     private Color trailColor; // Add a new field to store the trail color
+    private Weapon weapon;
+
     public ArrayList<Point> previousPositions;
 
 
@@ -27,12 +30,14 @@ public class Player extends Entity{
     private boolean moving; // Boolean to track whether the player is moving
 
 
-    public Player(GamePanel gp , keyHandler keyH , Color playerColor ){
+    public Player(GamePanel gp , keyMouseHandler keyH , Color playerColor ){
+        super(gp);
         this.gp = gp ;
         this.keyH = keyH ;
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        weapon = new Weapon(10, 5); // For example, 10 ammo and 5-tile range
 
         solidArea = new Rectangle(8 , 16 , 32 , 32) ;
         this.playerColor = playerColor; // Set the player's color
@@ -41,17 +46,8 @@ public class Player extends Entity{
         this.trailColor = Color.CYAN ; // Set the trail color to the provided color
         this.previousPositions = new ArrayList<>();
         this.moving = false ;
-    }
-    public void startMoving() {
-        moving = true;
-    }
 
-    // Method to stop the player's movement
-    public void stopMoving() {
-        moving = false;
     }
-
-    // Method to check if the player is currently moving
     public boolean isMoving() {
         return moving;
     }
@@ -63,7 +59,6 @@ public class Player extends Entity{
         Point currentPosition = new Point(worldX, worldY);
         previousPositions.add(currentPosition);
     }
-
 
     public void updateTrail() {
         if (isMoving()) {
@@ -105,31 +100,36 @@ public class Player extends Entity{
         }
     }
 
-    public  void playerUpdate(){
-        if (keyH.upPressed){
-            direction = "up" ;
+    public void playerUpdate() {
+        // Get the movement input from both keyboard and mouse
+        boolean keyboardUpPressed = keyH.upPressed;
+        boolean keyboardDownPressed = keyH.downPressed;
+        boolean keyboardLeftPressed = keyH.leftPressed;
+        boolean keyboardRightPressed = keyH.rightPressed;
+
+        boolean mouseUpPressed = keyH.upPressed;
+        boolean mouseDownPressed = keyH.downPressed;
+        boolean mouseLeftPressed = keyH.leftPressed;
+        boolean mouseRightPressed = keyH.rightPressed;
+
+        // Set the movement direction based on the input from both keyboard and mouse
+        if ((keyboardUpPressed || mouseUpPressed) && !(keyboardDownPressed || mouseDownPressed)) {
+            direction = "up";
+        } else if ((keyboardDownPressed || mouseDownPressed) && !(keyboardUpPressed || mouseUpPressed)) {
+            direction = "down";
+        } else if ((keyboardLeftPressed || mouseLeftPressed) && !(keyboardRightPressed || mouseRightPressed)) {
+            direction = "left";
+        } else if ((keyboardRightPressed || mouseRightPressed) && !(keyboardLeftPressed || mouseLeftPressed)) {
+            direction = "right";
         }
 
-        else if (keyH.downPressed){
-            direction = "down" ;
-        }
-        else if (keyH.leftPressed){
-            direction = "left" ;
-
-        }
-
-        else if(keyH.rightPressed){
-            direction = "right" ;
-
-        }
         int prevWorldX = worldX;
         int prevWorldY = worldY;
 
         collisionOn = false;
         gp.cChecker.checkTile(this);
 
-
-        if (!collisionOn){
+        if (!collisionOn) {
             switch (direction) {
                 case "up" -> worldY -= speed;
                 case "down" -> worldY += speed;
@@ -137,16 +137,17 @@ public class Player extends Entity{
                 case "right" -> worldX += speed;
             }
         }
-        spriteCounter ++ ;
-        if (spriteCounter > 10 ){
-            if (spriteNum == 1 ){
-                spriteNum =2 ;
+
+        spriteCounter++;
+        if (spriteCounter > 10) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum = 1;
             }
-            else if (spriteNum == 2){
-                spriteNum  = 1 ;
-            }
-            spriteCounter = 0 ;
+            spriteCounter = 0;
         }
+
         if (prevWorldX != worldX || prevWorldY != worldY) {
             addCurrentPositionToTrail();
         }
@@ -182,5 +183,34 @@ public class Player extends Entity{
         }
         g2.drawImage(image , screenX , screenY , gp.tileSize , gp.tileSize ,null);
 
+    }
+    public void fireWeapon() {
+        if (weapon.getAmmoCount() <= 0) {
+            System.out.println("you are out of ammo "); // Don't fire if ammo is empty
+        }
+
+        // Calculate the center coordinates of the 3x3 square around the player
+        int centerX = (worldX + solidArea.x + solidArea.width / 2) / gp.tileSize;
+        int centerY = (worldY + solidArea.y + solidArea.height / 2) / gp.tileSize;
+
+        // Calculate the boundaries of the 3x3 square
+        int startX = centerX - 1;
+        int startY = centerY - 1;
+        int endX = centerX + 1;
+        int endY = centerY + 1;
+
+        // Set the color of tiles within the 3x3 square to the player's home base color
+        for (int x = startX; x <= endX; x++) {
+            for (int y = startY; y <= endY; y++) {
+                if (x >= 0 && x < gp.maxWorldCol && y >= 0 && y < gp.maxWorldRow) {
+                    if (!gp.tileM.isPartOfHomeBase(x, y)) {
+                        gp.tileM.setTileColor(x, y, getPlayerColor());
+                    }
+                }
+            }
+        }
+
+        // Reduce ammo count
+        weapon.setAmmoCount(weapon.getAmmoCount() - 1);
     }
 }

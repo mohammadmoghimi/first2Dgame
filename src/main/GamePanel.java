@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import entity.Player;
 import tile.TileManager;
 
@@ -23,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int worldWidth = tileSize * maxWorldCol ;
     public final int worldHeight = tileSize * maxWorldRow ;
 
-    keyHandler keyH = new keyHandler() ;
+    keyMouseHandler keyH = new keyMouseHandler(this) ;
     Thread gameThread ;
     public CollisionChecker cChecker = new CollisionChecker(this) ;
     private Color playerColor = Color.BLUE;
@@ -32,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
     public TileManager tileM= new TileManager(this) ;
 
     int FPS = 60 ;
+    public Entity npc[] = new Entity[10] ;
 
     public GamePanel() {
 
@@ -39,6 +41,8 @@ public class GamePanel extends JPanel implements Runnable{
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
+        addMouseListener(keyH);
+        addMouseMotionListener(keyH);
         this.setFocusable(true);
         player = new Player(this, keyH, playerColor);
 
